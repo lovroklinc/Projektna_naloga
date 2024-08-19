@@ -1,0 +1,1 @@
+Tu bom napisal README.
