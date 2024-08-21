@@ -8,9 +8,13 @@ def popravi_imena_championov(seznam):
 
 def popravi_podrobne_podatke(seznam):
     popravljen = []
-    del seznam[1]
     for podatek in seznam[:3]:
-        popravljen += [float(podatek)]
-    popravljen += [int(seznam[3].replace(",", ""))]
+        try:
+            popravljen.append(float(podatek))
+        except:
+            popravljen.append(float(0))
+    popravljen.append(int(seznam[3].replace(",", "")))
     return popravljen
-#odstrani "rank", ki nas verjetno ne zanima in popravi tip podatkov
+#popravi tip podatkov
+#s try-exceptom se znebimo problema, ko ban-rate ne pokaže
+#namesto tega damo vrednost 0, saj se to pojavi, ko champion še ni bil bannan

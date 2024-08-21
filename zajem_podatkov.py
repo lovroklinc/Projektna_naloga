@@ -1,7 +1,7 @@
 import requests
 import re
 import os
-from bs4 import BeautifulSoup
+from pomozne_funkcije import popravi_imena_championov
 
 url_glavne_strani = "https://u.gg/lol/champions"
 
@@ -22,7 +22,7 @@ def pridobi_imena(url):
     return popravi_imena_championov(seznam_championov)
 #iz html-ja vrne seznam vseh championov, čez katere bomo iteratali
 
-##### KODA DO TU JE NEODVISNA OD RANKA, ZA KATEREGA PODATKI NAS ZANIMAJO #####
+##### POMEMBNI SEZNAMI #####
 
 seznam_rankov = [
     "platinum_plus", "emerald_plus", "diamond_plus", "diamond_2_plus", 
@@ -30,14 +30,16 @@ seznam_rankov = [
       "emerald", "platinum", "gold", "silver", "bronze", "iron"
       ]
 
-def pridobi_html_vsakega_championa(url):
-    seznam = pridobi_imena(url)
+seznam_imen = pridobi_imena(url_glavne_strani)
+
+##### KONEC SEGMENTA POMEMBNIH SEZNAMOV #####
+
+def pridobi_html_vsakega_championa():
     for rank in seznam_rankov:
         os.makedirs(f"podatki/{rank}")
-        for champion in seznam:
+        for champion in seznam_imen:
             with open(f"podatki/{rank}/{champion}.html", "w", encoding="utf-8") as dat:
                 dat.write(zajemi_html(url_glavne_strani + f"/{champion}/build" + f"?rank={rank}"))
-
 #ustvari html datoteke, ki jih bomo potrebovali za vsakega championa (in tudi za vsak rank)
 
 
