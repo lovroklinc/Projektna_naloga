@@ -1,7 +1,7 @@
 import requests
 import re
 import os
-from pomozne_funkcije import *
+from bs4 import BeautifulSoup
 
 url_glavne_strani = "https://u.gg/lol/champions"
 
@@ -22,36 +22,24 @@ def pridobi_imena(url):
     return popravi_imena_championov(seznam_championov)
 #iz html-ja vrne seznam vseh championov, čez katere bomo iteratali
 
+##### KODA DO TU JE NEODVISNA OD RANKA, ZA KATEREGA PODATKI NAS ZANIMAJO #####
+
+seznam_rankov = [
+    "platinum_plus", "emerald_plus", "diamond_plus", "diamond_2_plus", 
+    "master_plus", "overall", "challenger", "grandmaster", "master", "diamond",
+      "emerald", "platinum", "gold", "silver", "bronze", "iron"
+      ]
+
 def pridobi_html_vsakega_championa(url):
     seznam = pridobi_imena(url)
-    os.mkdir("podatki")
-    for champion in seznam:
-        with open(f"podatki/{champion}.html", "w", encoding="utf-8") as dat:
-            dat.write(zajemi_html(url_glavne_strani + f"/{champion}/build"))
-#ustvari html datoteke, ki jih bomo potrebovali za vsakega championa
+    for rank in seznam_rankov:
+        os.makedirs(f"podatki/{rank}")
+        for champion in seznam:
+            with open(f"podatki/{rank}/{champion}.html", "w", encoding="utf-8") as dat:
+                dat.write(zajemi_html(url_glavne_strani + f"/{champion}/build" + f"?rank={rank}"))
 
-def pridobi_podrobnosti(champion_html_text):
-    with open(champion_html_text, "r", encoding="utf-8") as dat:
-        tekstovna = dat.read()
-        vzorec = r'''<div class="value">(?P<win_rate>.*?)%</div><div class="label">Win Rate</div></div><div class="overall-rank"><div class="value">(?P<rank>.*?)</div><div class="label">Rank</div></div><div class="pick-rate"><div class="value">(?P<pick_rate>.*?)%</div><div class="label">Pick Rate</div></div><div class="ban-rate"><div class="value">(?P<ban_rate>.*?)%</div><div class="label">Ban Rate</div></div><div class="matches"><div class="value">(?P<matches>.*?)</div><div class="label">Matches</div>'''
+#ustvari html datoteke, ki jih bomo potrebovali za vsakega championa (in tudi za vsak rank)
 
-    return popravi_podrobne_podatke(list(re.findall(vzorec, tekstovna)[0]))
-#vrne seznam, ki ima winrate, rank, pickrate,banrate
-
-def pridobi_role(champion_html_text):
-    with open(champion_html_text, "r", encoding="utf-8") as dat:
-        tekstovna = dat.read()
-        vzorec = r'''</svg><div style="margin-left:12px">(?P<role>.*?)</div></div></div><style data-emotion-css="62g3xt-dummyInput">'''
-    return [re.findall(vzorec, tekstovna)[0]]
-
-def pridobi_podrobnosti_vsakega():
-    pridobi_html_vsakega_championa(url_glavne_strani)
-    slovar = {}
-    for champion in pridobi_imena(url_glavne_strani):
-        slovar[champion] = pridobi_podrobnosti(f"podatki/{champion}.html") + pridobi_role(f"podatki/{champion}.html")
-    return slovar
-
-pridobi_podrobnosti_vsakega()
 
 
 
