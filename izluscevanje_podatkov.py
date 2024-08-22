@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from zajem_podatkov import *
 from pomozne_funkcije import popravi_podrobne_podatke
 import re
+import csv
+import os 
 
 def pridobi_podrobnosti(champion_html):
     with open(champion_html, "r", encoding="utf-8") as dat:
@@ -17,7 +19,7 @@ def pridobi_podrobnosti(champion_html):
 #role je bil najprej svoja funkcija, ki smo jo zavoljo manjšega odpiranja datotek združili
 
 def pridobi_podrobnosti_vsakega():
-    pridobi_html_vsakega_championa(url_glavne_strani)
+    #pridobi_html_vsakega_championa(url_glavne_strani) #odkomentiraj pred oddajo
     slovar = {}
     for rank in seznam_rankov:
         slovar_championa = {}
@@ -27,5 +29,15 @@ def pridobi_podrobnosti_vsakega():
     return slovar
 #vrne slovar z vsemi championi oblike {champion:[win_rate, pick_rate, ban_rate, role]}
 
-#pridobi_podrobnosti_vsakega() #odkomentiram pred oddajo
 
+def pisanje_csv_datotek():
+    vrhovni_slovar = pridobi_podrobnosti_vsakega()
+    os.makedirs('podatki/csv')
+    for rank in seznam_rankov:
+        with open(f'podatki/csv/{rank}.csv', 'w', newline='') as csv_dat:
+            pisatelj = csv.writer(csv_dat)
+            pisatelj.writerow(['Champion', 'Win Rate (%)', 'Pick Rate (%)', 'Ban Rate(%)', 'Matches', 'Role'])
+            for champion, podatki in vrhovni_slovar[rank].items():
+                pisatelj.writerow([champion] + podatki)
+
+pisanje_csv_datotek()
