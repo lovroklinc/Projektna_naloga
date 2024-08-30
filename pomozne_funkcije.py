@@ -1,3 +1,5 @@
+import pandas as pd
+
 def popravi_imena_championov(seznam):
     popravljen = []
     for champion in seznam:
@@ -18,3 +20,12 @@ def popravi_podrobne_podatke(seznam):
 #popravi tip podatkov
 #s try-exceptom se znebimo problema, ko ban-rate ne pokaže
 #namesto tega damo vrednost 0, saj se to pojavi, ko champion še ni bil bannan
+
+
+
+champs = pd.read_csv('../podatki/csv/overall.csv')
+dobri = champs.nlargest(5, 'Win Rate (%)').sort_values(by = 'Win Rate (%)')
+slabi = champs.nsmallest(5, 'Win Rate (%)').sort_values(by = 'Win Rate (%)')
+zdruzeni = pd.concat([slabi, dobri])
+
+

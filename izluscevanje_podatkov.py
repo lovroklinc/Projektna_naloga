@@ -40,4 +40,4 @@ def pisanje_csv_datotek():
             for champion, podatki in vrhovni_slovar[rank].items():
                 pisatelj.writerow([champion] + podatki)
 
-pisanje_csv_datotek()
+#pisanje_csv_datotek()
