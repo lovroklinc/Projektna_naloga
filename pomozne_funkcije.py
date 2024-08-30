@@ -21,11 +21,12 @@ def popravi_podrobne_podatke(seznam):
 #s try-exceptom se znebimo problema, ko ban-rate ne pokaže
 #namesto tega damo vrednost 0, saj se to pojavi, ko champion še ni bil bannan
 
+def izbrani_champs(n, kriterij, rank = 'overall'):
+    champs = pd.read_csv(f'../podatki/csv/{rank}.csv')
+    dobri = champs.nlargest(n, kriterij).sort_values(by = kriterij)
+    slabi = champs.nsmallest(n, kriterij).sort_values(by = kriterij)
+    return  pd.concat([slabi, dobri])
+#vrne podatke za n championov primerne za izdelavo grafov
 
-
-champs = pd.read_csv('../podatki/csv/overall.csv')
-dobri = champs.nlargest(5, 'Win Rate (%)').sort_values(by = 'Win Rate (%)')
-slabi = champs.nsmallest(5, 'Win Rate (%)').sort_values(by = 'Win Rate (%)')
-zdruzeni = pd.concat([slabi, dobri])
 
 
