@@ -27,6 +27,7 @@ def izbrani_champs(n, kriterij, rank = 'overall'):
     slabi = champs.nsmallest(n, kriterij).sort_values(by = kriterij)
     return  pd.concat([slabi, dobri])
 #vrne podatke za n championov primerne za izdelavo grafov
+#za uporabo v jupytru
 
 
 
