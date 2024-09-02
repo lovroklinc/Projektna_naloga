@@ -1,7 +1,7 @@
 import requests
 import re
 import os
-from pomozne_funkcije import popravi_imena_championov
+from pomozne_funkcije import popravi_imena_championov, seznam_rankov
 
 url_glavne_strani = "https://u.gg/lol/champions"
 
@@ -22,17 +22,8 @@ def pridobi_imena(url):
     return popravi_imena_championov(seznam_championov)
 #iz html-ja vrne seznam vseh championov, čez katere bomo iteratali
 
-##### POMEMBNI SEZNAMI #####
-
-seznam_rankov = [
-    "platinum_plus", "emerald_plus", "diamond_plus", "diamond_2_plus", 
-    "master_plus", "overall", "challenger", "grandmaster", "master", "diamond",
-      "emerald", "platinum", "gold", "silver", "bronze", "iron"
-      ]
-
 seznam_imen = pridobi_imena(url_glavne_strani)
-
-##### KONEC SEGMENTA POMEMBNIH SEZNAMOV #####
+#seznam imen dodatno shranimo v posebej spremenljivko, za moznost dodatne uporabe drugje 
 
 def pridobi_html_vsakega_championa():
     for rank in seznam_rankov:

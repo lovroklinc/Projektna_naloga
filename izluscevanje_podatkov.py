@@ -19,7 +19,7 @@ def pridobi_podrobnosti(champion_html):
 #role je bil najprej svoja funkcija, ki smo jo zavoljo manjšega odpiranja datotek združili
 
 def pridobi_podrobnosti_vsakega():
-    #pridobi_html_vsakega_championa(url_glavne_strani) #odkomentiraj pred oddajo
+    pridobi_html_vsakega_championa()
     slovar = {}
     for rank in seznam_rankov:
         slovar_championa = {}
@@ -36,8 +36,9 @@ def pisanje_csv_datotek():
     for rank in seznam_rankov:
         with open(f'podatki/csv/{rank}.csv', 'w', newline='') as csv_dat:
             pisatelj = csv.writer(csv_dat)
-            pisatelj.writerow(['Champion', 'Win Rate (%)', 'Pick Rate (%)', 'Ban Rate(%)', 'Matches', 'Role'])
+            pisatelj.writerow(['Champion', 'Win Rate (%)', 'Pick Rate (%)', 'Ban Rate (%)', 'Matches', 'Role'])
             for champion, podatki in vrhovni_slovar[rank].items():
                 pisatelj.writerow([champion] + podatki)
+#napise csv datoteke za vsak rank posebej
 
-#pisanje_csv_datotek()
+pisanje_csv_datotek()

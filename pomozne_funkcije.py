@@ -1,5 +1,12 @@
 import pandas as pd
 
+seznam_rankov = [
+    "platinum_plus", "emerald_plus", "diamond_plus", "diamond_2_plus", 
+    "master_plus", "overall", "challenger", "grandmaster", "master", "diamond",
+    "emerald", "platinum", "gold", "silver", "bronze", "iron"
+    ]
+
+
 def popravi_imena_championov(seznam):
     popravljen = []
     for champion in seznam:
@@ -29,5 +36,14 @@ def izbrani_champs(n, kriterij, rank = 'overall'):
 #vrne podatke za n championov primerne za izdelavo grafov
 #za uporabo v jupytru
 
+def pridobi_pick_rates_sum():
+    pick_rates = []
+    for rank in seznam_rankov:
+        champs = pd.read_csv(f'../podatki/csv/{rank}.csv')
+        vsota = champs['Pick Rate (%)'].sum()/100
+        pick_rates.append(vsota)
+    return pick_rates
+#vrne seznam vsot pick rates po rankih
+#za uporabo v jupytru
 
 
