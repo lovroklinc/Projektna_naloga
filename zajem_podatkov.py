@@ -11,7 +11,7 @@ headers = {
 
 
 def zajemi_html(url):
-    html_strani = requests.get(url, headers=headers).text
+    html_strani = requests.get(url, headers = headers).text
     return html_strani
 #pridobi text, v katerem dalje iščemo imena championov
 

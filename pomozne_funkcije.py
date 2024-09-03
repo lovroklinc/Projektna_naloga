@@ -6,7 +6,6 @@ seznam_rankov = [
     "emerald", "platinum", "gold", "silver", "bronze", "iron"
     ]
 
-
 def popravi_imena_championov(seznam):
     popravljen = []
     for champion in seznam:
@@ -22,7 +21,7 @@ def popravi_podrobne_podatke(seznam):
             popravljen.append(float(podatek))
         except:
             popravljen.append(float(0))
-    popravljen.append(int(seznam[3].replace(",", "")))
+    popravljen.append(int(seznam[3].replace(',', '')))
     return popravljen
 #popravi tip podatkov
 #s try-exceptom se znebimo problema, ko ban-rate ne pokaže
